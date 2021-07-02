@@ -88,7 +88,7 @@ void disassemble(pid_t proc, csh cshandle, unsigned long long rip, const char *m
 void set_bp(vector<breakpoint>& bp_vec, prog_info info, unsigned long long addr);
 void cont(prog_info& info);
 void del_bp(prog_info& info, int idx);
-void disassemble(pid_t pid, csh cshandle, unsigned long long addr);
+int disassemble(pid_t pid, csh cshandle, unsigned long long addr);
 void dump(prog_info info, long long start_addr);
 void quit(prog_info info);
 void print_reg(const prog_info info, string reg);

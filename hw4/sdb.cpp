@@ -76,11 +76,16 @@ void get_orig_code(const prog_info info)
         return;
     }
 
+	cs_option(cshandle, CS_OPT_DETAIL, CS_OPT_ON);
+	cs_option(cshandle, CS_OPT_SKIPDATA, CS_OPT_ON);
+
 	unsigned long long addr = info.entry;
 
 	while(addr < info.entry+info.size)
 	{
-		disassemble(info.pid, cshandle, addr);
+		int dis = disassemble(info.pid, cshandle, addr);
+		if(dis == -1)
+			return;
 		addr += orig_instructions[orig_instructions.size()-1].size;
 	}
 
@@ -104,7 +109,7 @@ void print_instruction(instruction1 *in)
 	}
 }
 
-void disassemble(pid_t pid, csh cshandle, unsigned long long addr)
+int disassemble(pid_t pid, csh cshandle, unsigned long long addr)
 {
 	int count;
 	char buf[64] = { 0 };
@@ -135,9 +140,14 @@ void disassemble(pid_t pid, csh cshandle, unsigned long long addr)
 		// addr += insn[0].size;
 	}
 	else
+	{
 		fprintf(stderr, "** cs_disasm error.\n");
+		return -1;
+	}
+		
 
 	cs_free(insn, count);
+	return 0;
 }
 
 void set_bp(prog_info& info, unsigned long long addr)
@@ -391,7 +401,7 @@ void print_all_regs(const prog_info info)
 
 	// print all regs
 	unsigned long long int *ptr = (unsigned long long int *) &regs_struct;
-	int i=0;
+
 	fprintf(stderr, "RAX %llx\tRBX %llx\tRCX %llx\tRDX %llx\n", ptr[10], ptr[4], ptr[11], ptr[12]);
 	fprintf(stderr, "R8 %llx\tR9 %llx\tR10 %llx\tR11 %llx\n", ptr[9], ptr[8], ptr[7], ptr[6]);
 	fprintf(stderr, "R12 %llx\tR13 %llx\tR14 %llx\tR15 %llx\n", ptr[3], ptr[2], ptr[1], ptr[0]);
@@ -426,7 +436,7 @@ void list(const prog_info info)
 	{
 		for(int i=0; i<info.bp_vec.size(); i++)
 		{
-			fprintf(stderr, " %d: %lx\n", i, info.bp_vec[i].addr);
+			fprintf(stderr, " %d: %llx\n", i, info.bp_vec[i].addr);
 		}
 	}
 	else
@@ -444,7 +454,7 @@ void load(prog_info& info, string path)
 	}
 
 	info = elf_read(path);
-	fprintf(stderr, "** program '%s' loaded. entry point 0x%x\n", path.c_str(), info.entry);
+	fprintf(stderr, "** program '%s' loaded. entry point 0x%llx\n", path.c_str(), info.entry);
 	info.state = LOADED;
 	info.path = path;
 }
@@ -549,7 +559,7 @@ void start(prog_info& info)
     }
 	if(info.state == RUNNING)
 	{
-		fprintf(stderr,  "** program '%d' is already running.\n");
+		fprintf(stderr,  "** program '%d' is already running.\n", info.pid);
 		return;
 	}
 

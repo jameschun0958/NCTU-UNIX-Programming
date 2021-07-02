@@ -89,7 +89,7 @@ prog_info elf_read(string path)
 		// printf("e_shstrndx: %d\n",elf_header.e_shstrndx);
 		// printf("\n");
 
-		int temp, shnum, x;
+		int temp, shnum;
 		Elf64_Shdr *shdr = (Elf64_Shdr*)malloc(sizeof(Elf64_Shdr) * elf_header.e_shnum);
 		temp = fseek(fp, elf_header.e_shoff, SEEK_SET);
 		temp = fread(shdr, sizeof(Elf64_Shdr) * elf_header.e_shnum, 1, fp);
