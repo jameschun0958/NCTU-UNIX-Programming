@@ -72,8 +72,8 @@ void get_orig_code(const prog_info info)
 
 	if (cs_open(CS_ARCH_X86, CS_MODE_64, &cshandle) != CS_ERR_OK)
 	{
-       	fprintf(stderr, "** cs_open error.\n");
-        return;
+		fprintf(stderr, "** cs_open error.\n");
+	    return;
     }
 
 	cs_option(cshandle, CS_OPT_DETAIL, CS_OPT_ON);
@@ -101,7 +101,8 @@ void print_instruction(instruction1 *in)
 	char bytes[128] = "";
 	if(in == NULL) {
 		fprintf(stderr, "0x%012llx:\t<cannot disassemble>\n",in-> addr);
-	} else {
+	} 
+	else {
 		for(i = 0; i < in->size; i++) {
 			snprintf(&bytes[i*3], 4, "%2.2x ", in->bytes[i]);
 		}
@@ -154,8 +155,8 @@ void set_bp(prog_info& info, unsigned long long addr)
 {
 	if (info.state != RUNNING)
 	{
-	    	fprintf(stderr, "** state must be RUNNING.\n");
-	        return;
+		fprintf(stderr, "** state must be RUNNING.\n");
+	    return;
 	}
 
 	// if(info.entry + info.size <= addr)
@@ -216,8 +217,8 @@ void cont(prog_info& info)
 	int status;
 	if (info.state != RUNNING)
 	{
-	        fprintf(stderr, "** state must be RUNNING.\n");
-	        return;
+	    fprintf(stderr, "** state must be RUNNING.\n");
+	    return;
 	}
 
 	user_regs_struct regs_struct;
