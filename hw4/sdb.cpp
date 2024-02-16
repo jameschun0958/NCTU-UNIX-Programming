@@ -73,8 +73,8 @@ void get_orig_code(const prog_info info)
 	if (cs_open(CS_ARCH_X86, CS_MODE_64, &cshandle) != CS_ERR_OK)
 	{
 		fprintf(stderr, "** cs_open error.\n");
-	    return;
-    }
+	    	return;
+    	}
 
 	cs_option(cshandle, CS_OPT_DETAIL, CS_OPT_ON);
 	cs_option(cshandle, CS_OPT_SKIPDATA, CS_OPT_ON);
@@ -156,7 +156,7 @@ void set_bp(prog_info& info, unsigned long long addr)
 	if (info.state != RUNNING)
 	{
 		fprintf(stderr, "** state must be RUNNING.\n");
-	    return;
+	    	return;
 	}
 
 	// if(info.entry + info.size <= addr)
@@ -248,7 +248,7 @@ void cont(prog_info& info)
 		bp_restore={};
 	}
     
-    ptrace(PTRACE_CONT, info.pid, 0, 0);
+    	ptrace(PTRACE_CONT, info.pid, 0, 0);
 
 	waitpid(info.pid, &status, 0);
 
@@ -320,17 +320,17 @@ void disasm(prog_info& info, unsigned long long addr)
 {
 	if (info.state != RUNNING)
 	{
-        fprintf(stderr, "** state must be RUNNING.\n");
-        return;
-    }
+        	fprintf(stderr, "** state must be RUNNING.\n");
+        	return;
+    	}
 
 	csh cshandle;
 
 	if (cs_open(CS_ARCH_X86, CS_MODE_64, &cshandle) != CS_ERR_OK)
 	{
-       	fprintf(stderr, "** cs_open error.\n");
-        return;
-    }
+       		fprintf(stderr, "** cs_open error.\n");
+        	return;
+    	}
 
 	int idx = -1;
 	for(int i=0;i<orig_instructions.size();i++)
@@ -345,7 +345,7 @@ void disasm(prog_info& info, unsigned long long addr)
 	if(idx == -1)
 	{
 		fprintf(stderr, "**error addr given.\n");
-        return;
+        	return;
 	}
 
 	for(int i=idx; i<idx+10; i++)
@@ -367,9 +367,9 @@ void print_reg(const prog_info info, string reg)
 {
 	if (info.state != RUNNING)
 	{
-        fprintf(stderr, "** state must be RUNNING.\n");
-        return;
-    }
+        	fprintf(stderr, "** state must be RUNNING.\n");
+        	return;
+    	}
 
 	user_regs_struct regs_struct;
 	if(ptrace(PTRACE_GETREGS, info.pid, NULL, &regs_struct) != 0)
@@ -392,9 +392,9 @@ void print_all_regs(const prog_info info)
 {
 	if (info.state != RUNNING)
 	{
-        fprintf(stderr, "** state must be RUNNING.\n");
-        return;
-    }
+        	fprintf(stderr, "** state must be RUNNING.\n");
+        	return;
+    	}
 
 	user_regs_struct regs_struct;
 	if(ptrace(PTRACE_GETREGS, info.pid, NULL, &regs_struct) != 0)
@@ -466,16 +466,16 @@ void run(prog_info& info)
 	{
 		fprintf(stderr, "** program '%s' is already running.\n", info.path.c_str());
 		cont(info);
-    }
-    else if (info.state == LOADED)
+    	}
+	else if (info.state == LOADED)
 	{
-        start(info);
-        cont(info);
-    }
-    else
+        	start(info);
+        	cont(info);
+    	}
+	else
 	{
 		fprintf(stderr, "** state must be LOADED or RUNNING.\n");
-    }
+	}
 }
 
 void vmmap(const prog_info info)
@@ -556,7 +556,7 @@ void start(prog_info& info)
 	if (info.state != LOADED)
 	{
 	        fprintf(stderr,  "** state must be LOADED.\n");
-			return;
+		return;
     	}
 	if(info.state == RUNNING)
 	{
