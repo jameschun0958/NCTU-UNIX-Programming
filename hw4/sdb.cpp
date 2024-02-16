@@ -554,9 +554,9 @@ void start(prog_info& info)
 	pid_t child;
 	if (info.state != LOADED)
 	{
-        fprintf(stderr,  "** state must be LOADED.\n");
-		return;
-    }
+	        fprintf(stderr,  "** state must be LOADED.\n");
+			return;
+    	}
 	if(info.state == RUNNING)
 	{
 		fprintf(stderr,  "** program '%d' is already running.\n", info.pid);
