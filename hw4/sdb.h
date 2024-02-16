@@ -57,7 +57,7 @@ public:
 		regs_offset["r14"] = 1;
 		regs_offset["r13"] = 2;
 		regs_offset["r12"] = 3;
-        regs_offset["rbp"] = 4;
+        	regs_offset["rbp"] = 4;
 		regs_offset["rbx"] = 5;
 		regs_offset["r11"] = 6;
 		regs_offset["r10"] = 7;
