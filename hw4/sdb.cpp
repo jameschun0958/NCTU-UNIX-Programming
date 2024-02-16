@@ -154,9 +154,9 @@ void set_bp(prog_info& info, unsigned long long addr)
 {
 	if (info.state != RUNNING)
 	{
-    	fprintf(stderr, "** state must be RUNNING.\n");
-        return;
-    }
+	    	fprintf(stderr, "** state must be RUNNING.\n");
+	        return;
+	}
 
 	// if(info.entry + info.size <= addr)
 	// {
@@ -216,9 +216,9 @@ void cont(prog_info& info)
 	int status;
 	if (info.state != RUNNING)
 	{
-        fprintf(stderr, "** state must be RUNNING.\n");
-        return;
-    }
+	        fprintf(stderr, "** state must be RUNNING.\n");
+	        return;
+	}
 
 	user_regs_struct regs_struct;
 
